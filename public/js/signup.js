@@ -1,21 +1,28 @@
-const mailCont = document.querySelector('.mail-container');
-const emailBtn = document.getElementById('mail');
-const passwordBtn = document.getElementById('password');
+const signupCont = document.querySelector('.signup-container');
+const mail = document.getElementById('mail');
+const pw = document.getElementById('password');
 
-
-const signinBtn = document.getElementById('signInWithMail');
 const signupBtn = document.getElementById('signUp');
-
 const auth = firebase.auth();
 
 signupBtn.addEventListener('click',function(){
-    var email = emailBtn.value;
-    var password = passwordBtn.value;
+    var email = mail.value;
+    var password = pw.value;
     auth.createUserWithEmailAndPassword(email,password)
     .then(res=>{
-        window.location.href = '/profile'
+        emailVerificationEmail();
     })
     .catch(err=>{
         console.log(err)
     })
 })
+
+const emailVerificationEmail = () =>{
+    auth.currentUser.sendEmailVerification() //ve.
+        .then(()=>{
+        window.location.assign('../profile')
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+}
